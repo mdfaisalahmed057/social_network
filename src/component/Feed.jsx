@@ -60,6 +60,7 @@ const Style = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#CBC6C6",
         marginTop:10
+        
     },
 })
 export default Feed
