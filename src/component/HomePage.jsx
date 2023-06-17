@@ -11,7 +11,7 @@ import {FontAwesome5} from '@expo/vector-icons'
 
         <View>
             <View>
-                <Text style={Style.header}>Social-Network</Text>
+                <Text style={Style.header}>SociaL-Network</Text>
             </View>
             {/* this is for the post section */}
             <View >
