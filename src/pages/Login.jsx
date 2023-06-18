@@ -1,20 +1,49 @@
 import React from 'react'
 import { View, Text,Pressable, StyleSheet,Button, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native'
-
+import { useNavigation } from '@react-navigation/native';
+import {  signInWithEmailAndPassword } from "firebase/auth";
+import {auth} from '../../firebase'
+import { useState,useEffect } from 'react';
 function Login() {
+
+    const navigation = useNavigation();
+    const [email, SetEmail] = useState()
+    const [password, setPassword] = useState()
+ 
+    const handlesubmit = async () => {
+        try {
+           const res= signInWithEmailAndPassword(auth, email, password)
+            console.log(res)
+            if(!res){
+                Alert.alert("Enter the credential")
+
+            }else{
+                navigation.navigate('HomePage')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    
     return (
         <View>
             <View>
-                <Text style={Style.header}>Login</Text>
+                <Text s tyle={Style.header}>Login</Text>
             </View>
-            <Text style={{marginLeft:20}}>
+            <Text style={{ marginLeft: 20 }}>
                 Email
             </Text>
-            <TextInput style={Style.input} placeholder='Enter Your Email' />
+            <TextInput onChange={(text)=>SetEmail(text)} style={Style.input} placeholder='Enter Your Email' />
+            <Text style={{ marginLeft: 20,marginTop:10 }}>
+                Password
+            </Text>
+            <TextInput onChange={(text)=>setPassword(text)} style={Style.input} placeholder='password' />
             <Pressable style={Style.button}>
-                <Text style={{marginLeft:140,marginTop:13,color:'#FFFFFF',fontSize:20}} >Login</Text>
+                <Text style={{ marginLeft: 140, marginTop: 13, color: '#FFFFFF', fontSize: 20 }} onPress={handlesubmit} >Login</Text>
             </Pressable>
-            <Text style={{marginLeft:20}}>Already have an Account.Register</Text>
+            <Text style={{ marginLeft: 20  }}>Already have an Account.
+            <Text  style={{ color:'#FDD365'}} onPress={() => navigation.navigate('SignUp')}>SignUp</Text>
+            </Text>
         </View>
     )
 }

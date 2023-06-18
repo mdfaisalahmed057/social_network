@@ -2,8 +2,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUp from './SignUp';
 import Login from './Login';
 import HomePage from '../component/HomePage';
+import { NavigationContainer } from '@react-navigation/native';
 
-const Stack = createNativeStackNavigator();
+ const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
   return (

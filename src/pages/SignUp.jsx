@@ -13,7 +13,7 @@ function SignUp() {
   const [email, SetEmail] = useState()
   const [password, setPassword] = useState()
   const [selectImage, setSelectImage] = useState(null)
-
+  const navigation = useNavigation();
   useEffect(() => {
     (async () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -27,8 +27,7 @@ function SignUp() {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
+       quality: 1,
     });
 
     if (!result.canceled) {
@@ -61,6 +60,7 @@ function SignUp() {
                 username,
                 photourl: downloadurl,
               });
+              navigation.navigate('HomePage');
             } catch (err) {
               console.log(err);
             }
@@ -112,9 +112,12 @@ function SignUp() {
           {selectImage && <Image source={{ uri: selectImage.uri }} style={Style.image} />}
         </View>
         <Pressable style={Style.button}>
-          <Text style={{ marginLeft: 140, marginTop: 13, color: '#FFFFFF', fontSize: 20 }} onPress={handlesubmit} >SignUp</Text>
+           <Text style={{ marginLeft: 140, marginTop: 13, color: '#FFFFFF', fontSize: 20 }} onPress={handlesubmit} >SignUp</Text>
         </Pressable>
-        <Text style={{ marginLeft: 20 }}>Already have an Account.Register</Text>
+        <Text style={{ marginLeft: 20,marginTop:20}}>Already have an Account.
+        <Text  style={{ color:'#FDD365'}} onPress={()=>navigation.navigate('Login')}>Login
+        </Text>
+        </Text>
       </View>
     </ScrollView>
 

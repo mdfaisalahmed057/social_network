@@ -5,11 +5,12 @@ import Feed from './src/component/Feed';
 import Login from './src/pages/Login';
 import SignUp from './src/pages/SignUp';
 import Posting from './src/component/Posting';
+import Navigation from './src/pages/Navigation';
 export default function App() {
   return (
     <View style={styles.container}>
-      <SignUp/>
-       
+      <HomePage/>
+        
       <StatusBar style="auto" />
     </View>
   );
