@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react'
-import { View, Text,Pressable, StyleSheet, Image, ScrollView, Button,TextInput } from 'react-native'
+import { View, Text,Pressable, StyleSheet, Image, ScrollView,Alert, TouchableOpacity,TextInput } from 'react-native'
 import {  createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {auth, db} from '../../firebase';
 import * as ImagePicker from 'expo-image-picker';
@@ -12,8 +12,11 @@ function SignUp() {
   const [username, setUsername] = useState()
   const [email, SetEmail] = useState()
   const [password, setPassword] = useState()
+  const[error,setError]=useState(false)
   const [selectImage, setSelectImage] = useState(null)
   const navigation = useNavigation();
+  const icon=require('../../assets/addAvatar.png')
+
   useEffect(() => {
     (async () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -38,6 +41,7 @@ function SignUp() {
 
   const handlesubmit = async (e) => {
     try {
+
       const res = await createUserWithEmailAndPassword(auth, email, password);
       const date = new Date().getTime();
       const storageRef = ref(storage, `${username + date}`);
@@ -69,7 +73,11 @@ function SignUp() {
       );
     } catch (err) {
       console.log(err);
+      Alert.alert("Firebase Error", err.message);
+
+      
     }
+  // }
   };
       
   return (
@@ -78,7 +86,7 @@ function SignUp() {
         <View>
           <Text style={Style.header}>Register</Text>
         </View>
-        <View style={{ marginLeft: 20 }}>
+        <View style={{ marginLeft: 20, marginTop: 14 }}>
 
           <Text >
             Username
@@ -94,6 +102,7 @@ function SignUp() {
           </Text>
           <TextInput
             style={Style.input}
+            keyboardType='email-address'
             placeholder='Enter Your Email'
             onChangeText={(text) => SetEmail(text)}
           />
@@ -103,20 +112,25 @@ function SignUp() {
           <TextInput
             style={Style.input}
             placeholder='Enter Your Password'
+            secureTextEntry={true}
             onChangeText={(text) => setPassword(text)}
           />
           <Text >
             Profile Picture
           </Text>
-          <Button title="Select Image" onPress={pickImage} />
+          <TouchableOpacity onPress={pickImage}>
+            <Image
+              source={icon}
+              style={{ marginTop: 10, marginLeft: 16, width: 40, height: 40 }} />
+          </TouchableOpacity>
           {selectImage && <Image source={{ uri: selectImage.uri }} style={Style.image} />}
         </View>
         <Pressable style={Style.button}>
-           <Text style={{ marginLeft: 140, marginTop: 13, color: '#FFFFFF', fontSize: 20 }} onPress={handlesubmit} >SignUp</Text>
+          <Text style={{ marginLeft: 140, marginTop: 13, color: '#FFFFFF', fontSize: 20 }} onPress={handlesubmit} >SignUp</Text>
         </Pressable>
-        <Text style={{ marginLeft: 20,marginTop:20}}>Already have an Account.
-        <Text  style={{ color:'#FDD365'}} onPress={()=>navigation.navigate('Login')}>Login
-        </Text>
+        <Text style={{ marginLeft: 20, marginTop: 20 }}>Already have an Account.
+          <Text style={{ color: '#FDD365' }} onPress={() => navigation.navigate('Login')}>Login
+          </Text>
         </Text>
       </View>
     </ScrollView>
@@ -125,9 +139,9 @@ function SignUp() {
 }
 const Style = StyleSheet.create({
   header: {
-    marginVertical: 60,
+  color:"#B4AFAF",
     marginLeft: 20,
-    fontSize: 16,
+    fontSize: 30,
     fontWeight: "500",
   },
   input: {
@@ -142,10 +156,11 @@ const Style = StyleSheet.create({
   },
   button: {
     backgroundColor: '#FDD365',
-    width: '84%',
+    width: '88%',
     height: 50,
     marginLeft: 20,
     borderRadius: 100,
+    marginTop:10
 
   },
   image: {

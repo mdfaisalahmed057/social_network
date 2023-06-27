@@ -9,8 +9,7 @@ import Navigation from './src/pages/Navigation';
 export default function App() {
   return (
     <View style={styles.container}>
-      <HomePage/>
-        
+      <Navigation/>
       <StatusBar style="auto" />
     </View>
   );
